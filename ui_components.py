@@ -16,11 +16,11 @@ class UIComponents:
         st.set_page_config(
             page_title="AI Data Analyst", 
             layout="wide",
-            initial_sidebar_state="collapsed"
+            initial_sidebar_state="expanded"
         )
 
     def apply_custom_css(self):
-        """Apply custom CSS styling."""
+        """Apply custom CSS styling compatible with light & dark themes."""
         st.markdown("""
         <style>
         .main-header {
@@ -35,21 +35,21 @@ class UIComponents:
             text-align: center;
         }
         .success-box {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
+            background-color: var(--background-color);
+            border: 1px solid var(--secondary-background-color);
             border-radius: 5px;
             padding: 1rem;
             margin: 1rem 0;
         }
         .info-box {
-            background-color: #f8f9fa;
+            background-color: var(--secondary-background-color);
             border-left: 4px solid #667eea;
             padding: 1rem;
             margin: 1rem 0;
         }
         .memory-box {
-            background-color: #e3f2fd;
-            border: 1px solid #bbdefb;
+            background-color: var(--secondary-background-color);
+            border: 1px solid var(--secondary-background-color);
             border-radius: 5px;
             padding: 1rem;
             margin: 1rem 0;
@@ -58,13 +58,13 @@ class UIComponents:
             max-height: 300px;
             overflow-y: auto;
             padding: 1rem;
-            background-color: #f8f9fa;
+            background-color: var(--secondary-background-color);
             border-radius: 5px;
-            border: 1px solid #dee2e6;
+            border: 1px solid var(--background-color);
         }
         .memory-stats {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
+            background-color: var(--secondary-background-color);
+            border: 1px solid var(--background-color);
             border-radius: 5px;
             padding: 0.75rem;
             margin: 0.5rem 0;
