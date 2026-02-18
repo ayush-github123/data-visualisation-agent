@@ -1,5 +1,3 @@
-"""Enhanced Explanation Agent with memory capabilities."""
-
 import pandas as pd
 import json
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -52,7 +50,6 @@ Avoid technical jargon unless the user has shown familiarity with it in previous
 
     def explain_results(self, user_query, task_plan, primary_output_type, df_sample):
         """Generate explanations with memory context."""
-        # Get memory context if available
         memory_context = {}
         if self.memory_manager:
             context = self.memory_manager.get_context_for_llm(user_query)
@@ -68,7 +65,6 @@ Avoid technical jargon unless the user has shown familiarity with it in previous
                 "dataset_context": "{}"
             }
 
-        # Create the chain
         chain = (
             RunnablePassthrough() 
             | self.prompt 
@@ -84,7 +80,6 @@ Avoid technical jargon unless the user has shown familiarity with it in previous
             **memory_context
         })
         
-        # Store the interaction in memory
         if self.memory_manager:
             self.memory_manager.add_user_message(user_query)
             self.memory_manager.add_ai_message(explanation)

@@ -1,5 +1,3 @@
-"""Enhanced Planning Agent with memory capabilities."""
-
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
@@ -17,7 +15,6 @@ class PlannerAgent:
         self.parser = JsonOutputParser()
         self.memory_manager = memory_manager
         
-        # Enhanced prompt with memory context
         self.prompt = PromptTemplate.from_template(template="""
 You are an expert data visualization specialist with memory of previous interactions.
 
@@ -74,10 +71,8 @@ IMPORTANT:
 
     def get_task_plan(self, user_query, df_columns, df_dtypes, df_sample):
         """Generate a task plan with memory context."""
-        # Convert dtypes to string to avoid JSON serialization issues
         dtype_strings = {col: str(dtype) for col, dtype in df_dtypes.items()}
         
-        # Identify numeric and categorical columns
         numeric_columns = [
             col for col, dtype in dtype_strings.items() 
             if 'int' in dtype.lower() or 'float' in dtype.lower()
@@ -87,7 +82,6 @@ IMPORTANT:
             if 'object' in dtype.lower() or 'string' in dtype.lower()
         ]
         
-        # Get memory context if available
         memory_context = {}
         if self.memory_manager:
             context = self.memory_manager.get_context_for_llm(user_query)
@@ -105,7 +99,6 @@ IMPORTANT:
                 "previous_analyses": "[]"
             }
 
-        # Create the chain
         chain = (
             RunnablePassthrough() 
             | self.prompt 
@@ -127,7 +120,6 @@ def validate_task_plan(task_plan, df_columns):
     """Validate the generated task plan against available data and allowed operations."""
     errors = []
     
-    # Validate required keys
     required_keys = ["task", "target_column", "chart_type", "output_title", "additional_params"]
     for key in required_keys:
         if key not in task_plan:

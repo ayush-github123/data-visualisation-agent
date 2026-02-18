@@ -9,18 +9,18 @@ import re
 load_dotenv()
 
 st.set_page_config(page_title="LLM DataViz Assistant", layout="wide")
-st.title("📊 LLM-powered Data Visualization Assistant")
+st.title("LLM-powered Data Visualization Assistant")
 
 uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
-    st.success("✅ File uploaded successfully!")
+    st.success("File uploaded successfully!")
 
     st.subheader("🔎 Data Preview")
     st.dataframe(df.head())
 
-    st.subheader("📈 Dataset Info")
+    st.subheader("Dataset Info")
     st.write(f"Shape: {df.shape[0]} rows × {df.shape[1]} columns")
     st.write("Columns:", list(df.columns))
 
@@ -52,11 +52,11 @@ if uploaded_file is not None:
         st.subheader("Filtered Data Preview")
         st.dataframe(filtered_df.head())
 
-    st.subheader("💬 Ask a Question about Your Data")
+    st.subheader("Ask a Question about Your Data")
     user_query = st.text_input("Example: 'Show me correlation between revenue and ad spend'")
 
     if user_query:
-        st.write(f"👉 You asked: **{user_query}**")
+        st.write(f"You asked: **{user_query}**")
 
         schema = ", ".join(df.columns)
 
@@ -91,7 +91,7 @@ if uploaded_file is not None:
         )
 
         try:
-            llm = ChatGoogleGenerativeAI(temperature=0.3, model="gemini-2.0-flash")
+            llm = ChatGoogleGenerativeAI(temperature=0.3, model="gemini-2.5-flash")
 
             formatted_prompt = prompt.format(schema=schema, user_query=user_query)
             response = llm.invoke(formatted_prompt)
@@ -126,7 +126,7 @@ if uploaded_file is not None:
                     for i, fig in enumerate(figures, 1):
                         st.plotly_chart(fig, use_container_width=True, key=f"chart_{i}")
                 else:
-                    st.error("❌ No figures found in the generated code.")
+                    st.error("No figures found in the generated code.")
 
             except Exception as e:
                 st.error(f"Execution failed: {e}")

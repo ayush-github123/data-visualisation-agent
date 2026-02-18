@@ -66,8 +66,8 @@ class AIDataAnalyst:
         # Load dataset
         df, error = self.data_processor.load_csv(uploaded_file)
         if error:
-            st.error(f"❌ {error}")
-            st.info("💡 Please ensure your CSV file is properly formatted.")
+            st.error(f"{error}")
+            st.info("Please ensure your CSV file is properly formatted.")
             return
 
         # Store dataset context in memory
@@ -105,7 +105,7 @@ class AIDataAnalyst:
             
             with main_col:
                 # Step 1: Planning (with memory)
-                with st.spinner("🧠 Understanding your question..."):
+                with st.spinner("Understanding your question..."):
                     df_info = self.data_processor.get_dataframe_info(df_for_analysis)
                     task_plan = self.planner_agent.get_task_plan(
                         query, 
@@ -115,18 +115,18 @@ class AIDataAnalyst:
                     )
 
                 # Validation
-                errors = validate_task_plan(task_plan, df_for_analysis.columns.tolist())
-                if errors:
-                    # Store failed analysis in memory
-                    self.memory_manager.add_analysis_session(
-                        query, task_plan, df_info, "error", False, "; ".join(errors)
-                    )
+                # errors = validate_task_plan(task_plan, df_for_analysis.columns.tolist())
+                # if errors:
+                #     # Store failed analysis in memory
+                #     self.memory_manager.add_analysis_session(
+                #         query, task_plan, df_info, "error", False, "; ".join(errors)
+                #     )
                     
-                    st.error("❌ Could not understand your question:")
-                    for error in errors:
-                        st.error(f"• {error}")
-                    st.info("💡 Try rephrasing your question or check column names in the data preview.")
-                    return
+                #     st.error("❌ Could not understand your question:")
+                #     for error in errors:
+                #         st.error(f"• {error}")
+                #     st.info("💡 Try rephrasing your question or check column names in the data preview.")
+                #     return
 
                 # Step 2: Code Generation (with memory)
                 with st.spinner("⚡ Generating analysis..."):

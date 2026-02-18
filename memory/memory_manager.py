@@ -1,5 +1,3 @@
-"""Modern memory management system for AI Data Analyst using current LangChain patterns."""
-
 import json
 from datetime import datetime
 from typing import Dict, List, Any, Optional

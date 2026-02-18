@@ -21,13 +21,13 @@ ALLOWED_CHARTS = {
 }
 
 # Model configurations
-PLANNER_MODEL = "gemini-2.0-flash"
+PLANNER_MODEL = "gemini-2.5-flash"
 PLANNER_TEMPERATURE = 0.3
 
-CODER_MODEL = "gemini-2.0-flash"
+CODER_MODEL = "gemini-2.5-flash"
 CODER_TEMPERATURE = 0.1
 
-EXPLAINER_MODEL = "gemini-2.0-flash"
+EXPLAINER_MODEL = "gemini-2.5-flash"
 EXPLAINER_TEMPERATURE = 0.3
 
 # UI configurations

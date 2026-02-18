@@ -1,6 +1,3 @@
-# agents/coder_agent.py
-"""Enhanced Code Generation Agent with memory capabilities."""
-
 import re
 import json
 import pandas as pd
@@ -59,6 +56,7 @@ MEMORY-ENHANCED CODING:
 - Improve upon previous approaches based on memory insights
 
 CODE REQUIREMENTS:
+- Use `plotly.express` (`px`) for visualizations. Avoid using `matplotlib`, `seaborn`, or other libraries. Always assign the figure to `primary_fig`.
 - Create ONLY ONE primary output: `primary_fig`, `primary_table`, or `primary_summary`
 - Use descriptive variable names
 - Handle missing values appropriately
@@ -85,6 +83,14 @@ primary_table = result_df
 ```
 
 Generate ONLY executable Python code, no markdown formatting.
+Generate Python code that:
+
+1. Uses only the provided DataFrame `df`, without loading data from external files.
+2. Uses `plotly.express` (`px`) for visualizations; avoid `matplotlib` or `seaborn`.
+3. Defines any helper functions if needed but **must call them** and assign the final output to `primary_fig`.
+4. Handles missing values appropriately.
+5. Always produce a fully executable script — the code should be ready to run as is.
+
 """)
 
     def write_code(self, task_plan: dict, df_info: dict):
@@ -114,7 +120,6 @@ Generate ONLY executable Python code, no markdown formatting.
                 "dataset_context": "{}"
             }
 
-        # Create the chain
         chain = (
             RunnablePassthrough() 
             | self.prompt 
@@ -164,12 +169,11 @@ def execute_generated_code(code_str, df: pd.DataFrame):
     code_str = clean_code(code_str)
 
     try:
-        # Compile first to catch syntax errors
         compile(code_str, "<string>", "exec")
         exec(code_str, {"px": px, "pd": pd}, local_vars)
 
-        # Extract primary outputs only
         primary_fig = local_vars.get("primary_fig")
+        print(primary_fig)
         primary_table = local_vars.get("primary_table") 
         primary_summary = local_vars.get("primary_summary")
 

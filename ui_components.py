@@ -1,4 +1,3 @@
-# ui_components.py
 """Enhanced UI components with memory features for the Streamlit application."""
 
 import streamlit as st
